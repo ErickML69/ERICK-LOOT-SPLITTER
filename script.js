@@ -5,12 +5,59 @@ function agregarParticipante() {
     const nombre = input.value.trim();
     if (nombre) {
         participantes.push(nombre);
-        const lista = document.getElementById('listaParticipantes');
-        const nuevoParticipante = document.createElement('li');
-        nuevoParticipante.textContent = nombre;
-        lista.appendChild(nuevoParticipante);
+        actualizarListaParticipantes();
         input.value = '';
     }
+}
+
+function actualizarListaParticipantes() {
+    const lista = document.getElementById('listaParticipantes');
+    lista.innerHTML = ''; // Limpiar la lista antes de volver a renderizar
+    
+    participantes.forEach((nombre, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div>
+                <input type="checkbox" onclick="marcarDistribuido(this)">
+                <span>${nombre}</span>
+            </div>
+            <button class="eliminar-btn" onclick="eliminarParticipante(${index})">X</button>
+        `;
+        lista.appendChild(li);
+    });
+}
+
+function eliminarParticipante(index) {
+    participantes.splice(index, 1);
+    actualizarListaParticipantes();
+}
+
+function marcarDistribuido(checkbox) {
+    const li = checkbox.parentNode.parentNode;
+    if (checkbox.checked) {
+        li.classList.add('distribuido');
+    } else {
+        li.classList.remove('distribuido');
+    }
+}
+
+function resetearTodo() {
+    // Resetear los campos de entrada
+    document.getElementById('nombreParticipante').value = '';
+    document.getElementById('totalDinero').value = 0;
+    document.getElementById('totalSilver').value = 0;
+
+    // Resetear la lista de participantes y el array
+    participantes = [];
+    document.getElementById('listaParticipantes').innerHTML = '';
+
+    // Resetear los checkboxes de fotos
+    document.getElementById('foto1').checked = false;
+    document.getElementById('foto2').checked = false;
+    document.getElementById('foto3').checked = false;
+
+    // Limpiar los resultados
+    document.getElementById('resultados').innerHTML = '';
 }
 
 function calcularBotin() {
@@ -23,16 +70,14 @@ function calcularBotin() {
     const dinero = parseInt(document.getElementById('totalDinero').value);
     const silver = parseInt(document.getElementById('totalSilver').value);
 
-    // Usa Math.floor() para obtener solo el valor entero
     const dineroPorPersona = Math.floor(dinero / totalParticipantes);
     const silverPorPersona = Math.floor(silver / totalParticipantes);
     
-    // Aquí calculamos el "restante" para un reparto más justo.
     const dineroRestante = dinero % totalParticipantes;
     const silverRestante = silver % totalParticipantes;
 
     const resultadosDiv = document.getElementById('resultados');
-    resultadosDiv.innerHTML = ''; // Limpiar resultados anteriores
+    resultadosDiv.innerHTML = ''; 
 
     let resultadoHTML = `
         <h3>A cada uno le toca:</h3>
@@ -49,7 +94,6 @@ function calcularBotin() {
 
     resultadoHTML += `</ul>`;
     
-    // Agregamos la información del restante al final
     resultadoHTML += `
         <h4>Sobrante:</h4>
         <p><strong>Dinero sobrante:</strong> ${dineroRestante}</p>
