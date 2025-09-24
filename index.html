@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Divisor de Botín</title>
+</head>
+<body>
+    <h1>Divisor de Botín de Gremio</h1>
+
+    <h2>Participantes</h2>
+    <input type="text" id="nombreParticipante" placeholder="Escribe un nombre">
+    <button onclick="agregarParticipante()">Agregar</button>
+    <ul id="listaParticipantes"></ul>
+    
+    <h2>Botín del Gremio</h2>
+    <div>
+        <label for="totalDinero">Total de Oro/Moneda:</label>
+        <input type="number" id="totalDinero" value="0">
+    </div>
+    <div>
+        <label for="totalSilver">Total de Plata (Silver):</label>
+        <input type="number" id="totalSilver" value="0">
+    </div>
+    
+    <button onclick="calcularBotin()">Calcular Botín</button>
+
+    <h2>Resultado</h2>
+    <div id="resultados"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
