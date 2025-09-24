@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Reportes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #121212;
+            color: #e0ac46;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #ffc400;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        li span {
+            flex: 1;
+        }
+        li button {
+            background-color: #ffc400;
+            color: #121212;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: #fff;
+            margin-left: 10px;
+        }
+        .back-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid #e0ac46;
+            background-color: #2c2c2c;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .mode-buttons { display: none; }
+        }
+        body.phone-mode .container { flex-direction: column; }
+    </style>
+</head>
+<body class="pc-mode">
+    <div class="mode-buttons">
+        <button id="mode-btn" onclick="toggleMode()">Cambiar a Modo Teléfono</button>
+    </div>
+    <div class="header">
+        <h1>Historial de Reportes</h1>
+        <a href="index.html" class="back-button">Volver a la calculadora</a>
+    </div>
+    <div class="container">
+        <p id="message">Cargando historial...</p>
+        <ul id="historial-list"></ul>
+    </div>
+    <script src="historial.js"></script>
+</body>
+</html>

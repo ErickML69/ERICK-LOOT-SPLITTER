@@ -2,45 +2,72 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Divisor de Botín</title>
+    <title>Hiyoko Loot Split</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
         body {
-            font-family: sans-serif;
+            font-family: 'Cinzel', serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            padding-top: 20px;
+            align-items: center;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0ac46;
+        }
+        .top-buttons {
+            display: flex;
+            justify-content: flex-end;
+            width: 90%;
+            max-width: 1200px;
+            margin-bottom: 10px;
+            gap: 10px;
+            align-self: center;
         }
         .container {
-            text-align: center;
+            display: flex;
+            gap: 20px;
             width: 90%;
-            max-width: 600px;
+            max-width: 1200px;
+        }
+        .section {
+            flex: 1;
+            background-color: #1e1e1e;
             padding: 20px;
-            border: 1px solid #ccc;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
-        #listaParticipantes {
-            list-style: none;
-            padding: 0;
+        h1, h2, h3 {
+            text-align: center;
+            color: #ffc400;
         }
-        #listaParticipantes li {
-            background-color: #f0f0f0;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
+        .input-group {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
-        .reset-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px 15px;
+        .input-group label, .input-group input {
+            flex: 1;
+        }
+        input[type="text"], input[type="number"], button {
+            width: calc(100% - 10px);
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #e0ac46;
+            background-color: #2c2c2c;
+            color: #fff;
+        }
+        button {
+            background-color: #ffc400;
+            color: #121212;
             cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
+            border: none;
+            font-weight: bold;
         }
+        .reset-btn { background-color: #dc3545; color: #fff; }
         .eliminar-btn {
             background-color: #ff6347;
             color: white;
@@ -48,50 +75,162 @@
             border-radius: 50%;
             width: 25px;
             height: 25px;
+            font-size: 14px;
+            line-height: 1;
+            margin-left: 10px;
+        }
+        #listaParticipantes, #entradasContainer { list-style: none; padding: 0; }
+        #listaParticipantes li {
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            background-color: #2c2c2c;
+            transition: background-color 0.3s ease;
+        }
+        #resultados ul { list-style: none; padding: 0; }
+        #resultados li {
+            font-size: 1.5em;
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #2c2c2c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-pagado input[type="checkbox"] { display: none; }
+        .checkbox-pagado label { cursor: pointer; font-size: 1.5em; line-height: 1; }
+        .checkbox-pagado input[type="checkbox"] + label::before { content: '❌'; color: #dc3545; }
+        .checkbox-pagado input[type="checkbox"]:checked + label::before { content: '✓'; color: #198754; }
+        .entrada-header { display: flex; justify-content: space-between; align-items: center; }
+        .entrada-header h3 { margin: 0; }
+
+        .icon-button {
+            background-color: transparent;
+            color: #ffc400;
+            font-size: 1.5em;
+            padding: 5px;
+            border: none;
             cursor: pointer;
+            transition: color 0.3s ease;
         }
-        .distribuido {
-            text-decoration: line-through;
-            color: #888;
+        .icon-button:hover {
+            color: #fff;
         }
+        
+        .radio-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .radio-options input[type="radio"] {
+            display: none;
+        }
+        .radio-options label {
+            padding: 8px 15px;
+            border: 1px solid #e0ac46;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .radio-options input[type="radio"]:checked + label {
+            background-color: #ffc400;
+            color: #121212;
+            font-weight: bold;
+        }
+
+        #utc-clock {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 1em;
+            color: #fff;
+            background-color: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; }
+        }
+        body.phone-mode .container { flex-direction: column; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Divisor de Botín de Gremio</h1>
-
-        <h2>Participantes</h2>
-        <input type="text" id="nombreParticipante" placeholder="Escribe un nombre">
-        <button onclick="agregarParticipante()">Agregar</button>
-        <ul id="listaParticipantes"></ul>
-        
-        <h3>Estado</h3>
-        <div>
-            <input type="checkbox" id="foto1">
-            <label for="foto1">Foto 1</label>
-            <input type="checkbox" id="foto2">
-            <label for="foto2">Foto 2</label>
-            <input type="checkbox" id="foto3">
-            <label for="foto3">Foto 3</label>
-        </div>
-        
-        <h2>Botín del Gremio</h2>
-        <div>
-            <label for="totalDinero">Total de Oro/Moneda:</label>
-            <input type="number" id="totalDinero" value="0">
-        </div>
-        <div>
-            <label for="totalSilver">Total de Plata (Silver):</label>
-            <input type="number" id="totalSilver" value="0">
-        </div>
-        
-        <button onclick="calcularBotin()">Calcular Botín</button>
-        <button class="reset-btn" onclick="resetearTodo()">Resetear</button>
-
-        <h2>Resultado</h2>
-        <div id="resultados"></div>
+<body class="pc-mode">
+    <div id="utc-clock"></div>
+    <div class="top-buttons">
+        <button class="icon-button" onclick="toggleMode()">
+            <span id="mode-icon">📱</span>
+        </button>
+        <button class="icon-button" onclick="window.location.href='historial.html'">
+            <span>🕰️</span>
+        </button>
     </div>
+    
+    <div class="container">
+        <div class="section">
+            <h1>Hiyoko Loot Split</h1>
+            <h2>Participantes</h2>
+            <input type="text" id="nombreParticipante" placeholder="Escribe un nombre" list="lista-jugadores">
+            <datalist id="lista-jugadores"></datalist>
+            <button onclick="agregarParticipante()">Agregar</button>
+            <ul id="listaParticipantes"></ul>
+            <button class="reset-btn" onclick="resetearTodo()">Resetear Todo</button>
+        </div>
 
+        <div class="section">
+            <h2>Botín y Cálculo</h2>
+            <div class="radio-options">
+                <input type="radio" id="opcionIsla" name="tipoCofre" value="ISLA" checked>
+                <label for="opcionIsla">ISLA</label>
+                <input type="radio" id="opcionHo" name="tipoCofre" value="HO">
+                <label for="opcionHo">HO</label>
+            </div>
+            <div>
+                <label for="nombreCofre">Nombre del Cofre:</label>
+                <input type="text" id="nombreCofre" oninput="this.value = this.value.toUpperCase()" placeholder="Ej. Cofre de la semana">
+            </div>
+
+            <div id="entradasContainer">
+                <div id="entrada-1">
+                    <div class="entrada-header">
+                        <h3>Entrada 1</h3>
+                    </div>
+                    <div class="input-group">
+                        <div>
+                            <label for="dineroEntrada1">Loot Objetos:</label>
+                            <input type="text" id="dineroEntrada1" value="0" oninput="formatearNumero(this); generarReporteCompleto()">
+                        </div>
+                        <div>
+                            <label for="silverEntrada1">Loot Silver:</label>
+                            <input type="text" id="silverEntrada1" value="0" oninput="formatearNumero(this); generarReporteCompleto()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="añadirOtraEntrada()">Añadir otra entrada</button>
+            
+            <div id="resultados">
+                <h3>Resultados</h3>
+                <p>Ingresa los datos para ver el resultado en tiempo real.</p>
+            </div>
+            <button onclick="guardarReporte()">Guardar Reporte</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

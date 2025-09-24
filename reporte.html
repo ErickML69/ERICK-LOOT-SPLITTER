@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Botín</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+        body {
+            font-family: 'Cinzel', serif;
+            background-color: #121212;
+            color: #e0ac46;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #ffc400;
+        }
+        .reporte-container {
+            width: 90%;
+            max-width: 600px;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        #reporte-texto {
+            background-color: #2c2c2c;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: 1px solid #e0ac46;
+            background-color: #2c2c2c;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .copy-button {
+            background-color: #ffc400;
+            color: #121212;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            padding: 10px;
+            width: 100%;
+            border-radius: 4px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+        }
+        .checkbox-pagado {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-pagado input[type="checkbox"] { display: none; }
+        .checkbox-pagado label { cursor: pointer; font-size: 1.5em; line-height: 1; }
+        .checkbox-pagado input[type="checkbox"] + label::before { content: '❌'; color: #dc3545; }
+        .checkbox-pagado input[type="checkbox"]:checked + label::before { content: '✓'; color: #198754; }
+        
+        .mode-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .mode-buttons { display: none; }
+        }
+        body.phone-mode .reporte-container { flex-direction: column; }
+        
+        #tipo-de-cofre {
+            font-size: 1.5em; /* Agrandado */
+            font-weight: bold; /* Negrita */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="pc-mode">
+    <div class="mode-buttons">
+        <button id="mode-btn" onclick="toggleMode()">Cambiar a Modo Teléfono</button>
+    </div>
+    <div class="header">
+        <h1>Reporte de Botín</h1>
+        <p id="tipo-de-cofre"></p>
+        <a href="index.html" class="back-button">Volver a la calculadora</a>
+    </div>
+    
+    <div class="reporte-container">
+        <div id="reporte-interactivo">
+            </div>
+        <hr style="border-color: #e0ac46; margin-top: 20px;">
+        <button class="copy-button" onclick="copiarReporte()">Copiar Reporte</button>
+    </div>
+
+    <script src="reporte.js"></script>
+</body>
+</html>
