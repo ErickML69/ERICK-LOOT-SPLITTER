@@ -2,102 +2,244 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Historial de Reportes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Reportes - Hiyoko</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
-        body {
-            font-family: 'Cinzel', serif;
-            background-color: #121212;
-            color: #e0ac46;
-            padding: 20px;
+        /* --- ESTILOS COMPARTIDOS (COPIAR DE index.html) --- */
+        :root {
+            --color-texto: #e0e0e0;
+            --color-fondo: #1e1e1e;
+            --color-fondo-secundario: #2a2a2a;
+            --color-separador: #444;
+            --color-exito: #4CAF50;
+            --color-error: #F44336;
+            --color-info: #2196F3;
+            --color-cofre: #795548;
+            --color-acento-dorado: #FFC107;
+            --color-alerta: #FF9800; 
+            --color-pendiente: #9E9E9E; 
+        }
+        body { 
+            background-color: var(--color-fondo); 
+            color: var(--color-texto); 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px; 
+            min-height: 100vh;
+        }
+        h1, h2, h3 { 
+            color: var(--color-acento-dorado);
+            text-align: center;
+        }
+        hr { border: 0; border-top: 1px solid var(--color-separador); margin: 20px 0; }
+        button { 
+            background-color: var(--color-info); 
+            color: white; 
+            border: none; 
+            padding: 7px 12px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background-color 0.2s; 
+        }
+        button:hover { background-color: #1976D2; }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DEL HISTORIAL --- */
+        #historialContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        .report-card {
+            background-color: var(--color-fondo-secundario);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            position: relative;
+            transition: transform 0.2s;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: space-between;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
+        .report-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
         }
-        .header h1 {
-            color: #ffc400;
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #3a3a3a;
+            padding-bottom: 5px;
         }
-        .container {
-            width: 90%;
-            max-width: 800px;
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        .card-header h3 {
+            color: var(--color-texto);
+            font-size: 1.1em;
+            margin: 0;
+            text-align: left;
+            flex-grow: 1;
         }
-        ul {
+        .card-header span {
+            font-size: 0.7em;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .card-body p {
+            font-size: 0.9em;
+            margin: 4px 0;
+        }
+        .card-body strong {
+            color: var(--color-acento-dorado);
+        }
+        .loot-summary {
+            background-color: #333;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .loot-summary p {
+            font-size: 0.85em;
+            margin: 2px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .reparacion-tag {
+            font-size: 0.75em;
+            background-color: var(--color-error);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .participants-list {
+            margin-top: 10px;
+            max-height: 150px; 
+            overflow-y: auto; 
+            padding-right: 5px;
+        }
+        .participants-list ul {
             list-style: none;
             padding: 0;
+            margin: 0;
+            font-size: 0.8em;
         }
-        li {
-            padding: 15px;
-            margin-bottom: 10px;
-            background-color: #2c2c2c;
-            border-radius: 5px;
+        .participants-list li {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            padding: 2px 0;
+            border-bottom: 1px dotted #444;
         }
-        li span {
-            flex: 1;
-        }
-        li button {
-            background-color: #ffc400;
-            color: #121212;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-            color: #fff;
-            margin-left: 10px;
-        }
-        .back-button {
-            display: block;
-            width: fit-content;
-            margin: 20px auto;
-            padding: 10px 20px;
-            border-radius: 4px;
-            border: 1px solid #e0ac46;
-            background-color: #2c2c2c;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .mode-buttons {
+
+        /* Nuevos Estilos de Botones */
+        .action-group {
             display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
+            gap: 5px;
+            margin-top: 10px;
         }
-        @media (max-width: 768px) {
-            .mode-buttons { display: none; }
+        .action-group button {
+            flex: 1;
+            font-size: 0.8em;
         }
-        body.phone-mode .container { flex-direction: column; }
+        .btn-view {
+             background-color: var(--color-info);
+        }
+        .btn-copy {
+             background-color: #5865F2; /* Azul de Discord */
+        }
+        
+        .clear-button {
+            margin-top: 20px;
+            background-color: var(--color-error);
+            width: 100%;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            #historialContainer {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* MODAL para el reporte completo */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+        }
+        .modal-content {
+            background-color: var(--color-fondo-secundario);
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%; 
+            max-width: 700px; 
+            border-radius: 8px;
+            position: relative;
+        }
+        .close {
+            color: var(--color-error);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+        #reporteCompletoContent {
+            white-space: pre-wrap; /* Respeta los saltos de línea y espacios */
+            font-family: monospace;
+            background-color: #111;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 70vh;
+            overflow-y: auto;
+            font-size: 0.9em;
+        }
+
     </style>
 </head>
-<body class="pc-mode">
-    <div class="mode-buttons">
-        <button id="mode-btn" onclick="toggleMode()">Cambiar a Modo Teléfono</button>
-    </div>
-    <div class="header">
-        <h1>Historial de Reportes</h1>
-        <a href="index.html" class="back-button">Volver a la calculadora</a>
-    </div>
+<body>
     <div class="container">
-        <p id="message">Cargando historial...</p>
-        <ul id="historial-list"></ul>
+        <h1>📜 Historial de Repartos de Loot</h1>
+        <p style="text-align: center; color: #aaa;">Aquí se guardan todos los reportes generados. Usa los botones de acción debajo de cada tarjeta.</p>
+        <hr>
+
+        <div id="historialContainer">
+            <p style="text-align: center; grid-column: 1 / -1;" id="noReportsMessage">No hay reportes guardados.</p>
+        </div>
+
+        <button onclick="confirmarBorrarHistorial()" class="clear-button">🗑️ Borrar todo el Historial</button>
     </div>
+
+    <div id="reporteModal" class="modal" onclick="if(event.target.id === 'reporteModal') closeReporteModal()">
+        <div class="modal-content">
+            <span class="close" onclick="closeReporteModal()">&times;</span>
+            <h2>Reporte Estático Completo</h2>
+            <div id="reporteCompletoContent">
+                </div>
+        </div>
+    </div>
+
     <script src="historial.js"></script>
 </body>
 </html>
